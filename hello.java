@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package local_project.beforerunjobs_0_1;
+package local_project.tcontextload_and_file_0_1;
 
 import routines.DataOperation;
 import routines.TalendDataGenerator;
@@ -51,14 +51,14 @@ import java.util.Comparator;
 @SuppressWarnings("unused")
 
 /**
- * Job: beforeRunJobs Purpose: <br>
+ * Job: tContextLoad_and_file Purpose: <br>
  * Description: <br>
- *
- * @author user@talend.com
+ * 
+ * @author training@talend.com
  * @version 7.3.1.20200219_1130
  * @status
  */
-public class beforeRunJobs implements TalendJob {
+public class tContextLoad_and_file implements TalendJob {
 
 	protected static void logIgnoredError(String message, Throwable cause) {
 		System.err.println(message);
@@ -125,30 +125,42 @@ public class beforeRunJobs implements TalendJob {
 
 		public void synchronizeContext() {
 
-			if (root != null) {
+			if (config_filepath != null) {
 
-				this.setProperty("root", root.toString());
+				this.setProperty("config_filepath", config_filepath.toString());
 
 			}
 
-			if (workspace != null) {
+			if (uri != null) {
 
-				this.setProperty("workspace", workspace.toString());
+				this.setProperty("uri", uri.toString());
+
+			}
+
+			if (postLenght != null) {
+
+				this.setProperty("postLenght", postLenght.toString());
 
 			}
 
 		}
 
-		public String root;
+		public String config_filepath;
 
-		public String getRoot() {
-			return this.root;
+		public String getConfig_filepath() {
+			return this.config_filepath;
 		}
 
-		public String workspace;
+		public String uri;
 
-		public String getWorkspace() {
-			return this.workspace;
+		public String getUri() {
+			return this.uri;
+		}
+
+		public Integer postLenght;
+
+		public Integer getPostLenght() {
+			return this.postLenght;
 		}
 	}
 
@@ -159,7 +171,7 @@ public class beforeRunJobs implements TalendJob {
 	}
 
 	private final String jobVersion = "0.1";
-	private final String jobName = "beforeRunJobs";
+	private final String jobName = "tContextLoad_and_file";
 	private final String projectName = "LOCAL_PROJECT";
 	public Integer errorCode = null;
 	private String currentComponent = "";
@@ -267,14 +279,14 @@ public class beforeRunJobs implements TalendJob {
 				} else {
 					e.printStackTrace();
 					e.printStackTrace(errorMessagePS);
-					beforeRunJobs.this.exception = e;
+					tContextLoad_and_file.this.exception = e;
 				}
 			}
 			if (!(e instanceof TalendException)) {
 				try {
 					for (java.lang.reflect.Method m : this.getClass().getEnclosingClass().getMethods()) {
 						if (m.getName().compareTo(currentComponent + "_error") == 0) {
-							m.invoke(beforeRunJobs.this, new Object[] { e, currentComponent, globalMap });
+							m.invoke(tContextLoad_and_file.this, new Object[] { e, currentComponent, globalMap });
 							break;
 						}
 					}
@@ -288,44 +300,193 @@ public class beforeRunJobs implements TalendJob {
 		}
 	}
 
-	public void tFileUnarchive_1_error(Exception exception, String errorComponent,
-									   final java.util.Map<String, Object> globalMap) throws TalendException {
+	public void tFileInputDelimited_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap) throws TalendException {
 
 		end_Hash.put(errorComponent, System.currentTimeMillis());
 
 		status = "failure";
 
-		tFileUnarchive_1_onSubJobError(exception, errorComponent, globalMap);
+		tFileInputDelimited_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tFileTouch_1_error(Exception exception, String errorComponent,
-								   final java.util.Map<String, Object> globalMap) throws TalendException {
+	public void tContextLoad_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap) throws TalendException {
 
 		end_Hash.put(errorComponent, System.currentTimeMillis());
 
 		status = "failure";
 
-		tFileTouch_1_onSubJobError(exception, errorComponent, globalMap);
+		tFileInputDelimited_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tFileUnarchive_1_onSubJobError(Exception exception, String errorComponent,
-											   final java.util.Map<String, Object> globalMap) throws TalendException {
+	public void tRSSInput_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap) throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tRSSInput_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tLogRow_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap) throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tRSSInput_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tFileInputDelimited_1_onSubJobError(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap) throws TalendException {
 
 		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread.currentThread().getId() + "", "FATAL", "",
 				exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception), "");
 
 	}
 
-	public void tFileTouch_1_onSubJobError(Exception exception, String errorComponent,
-										   final java.util.Map<String, Object> globalMap) throws TalendException {
+	public void tRSSInput_1_onSubJobError(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap) throws TalendException {
 
 		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread.currentThread().getId() + "", "FATAL", "",
 				exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception), "");
 
 	}
 
-	public void tFileUnarchive_1Process(final java.util.Map<String, Object> globalMap) throws TalendException {
-		globalMap.put("tFileUnarchive_1_SUBPROCESS_STATE", 0);
+	public static class row1Struct implements routines.system.IPersistableRow<row1Struct> {
+		final static byte[] commonByteArrayLock_LOCAL_PROJECT_tContextLoad_and_file = new byte[0];
+		static byte[] commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_LOCAL_PROJECT_tContextLoad_and_file.length) {
+					if (length < 1024 && commonByteArray_LOCAL_PROJECT_tContextLoad_and_file.length == 0) {
+						commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[1024];
+					} else {
+						commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray_LOCAL_PROJECT_tContextLoad_and_file, 0, length);
+				strReturn = new String(commonByteArray_LOCAL_PROJECT_tContextLoad_and_file, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos) throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_LOCAL_PROJECT_tContextLoad_and_file) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row1Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tFileInputDelimited_1Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+		globalMap.put("tFileInputDelimited_1_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -344,192 +505,300 @@ public class beforeRunJobs implements TalendJob {
 			if (resumeIt || globalResumeTicket) { // start the resume
 				globalResumeTicket = true;
 
+				row1Struct row1 = new row1Struct();
+
 				/**
-				 * [tFileUnarchive_1 begin ] start
+				 * [tContextLoad_1 begin ] start
 				 */
 
-				ok_Hash.put("tFileUnarchive_1", false);
-				start_Hash.put("tFileUnarchive_1", System.currentTimeMillis());
+				ok_Hash.put("tContextLoad_1", false);
+				start_Hash.put("tContextLoad_1", System.currentTimeMillis());
 
-				currentComponent = "tFileUnarchive_1";
+				currentComponent = "tContextLoad_1";
 
-				int tos_count_tFileUnarchive_1 = 0;
+				int tos_count_tContextLoad_1 = 0;
 
-				com.talend.compress.zip.Util util_tFileUnarchive_1 = new com.talend.compress.zip.Util(true);
+				java.util.List<String> assignList_tContextLoad_1 = new java.util.ArrayList<String>();
+				java.util.List<String> newPropertyList_tContextLoad_1 = new java.util.ArrayList<String>();
+				java.util.List<String> noAssignList_tContextLoad_1 = new java.util.ArrayList<String>();
+				int nb_line_tContextLoad_1 = 0;
 
-				String zipFileURL_tFileUnarchive_1 = context.workspace
-						.concat("/" + projectName + "/documentations/talend_files_0.1.item");
-				;
-				String tmpFileURL_tFileUnarchive_1 = zipFileURL_tFileUnarchive_1.toLowerCase();
-				String outputPath_tFileUnarchive_1 = context.root;
+				/**
+				 * [tContextLoad_1 begin ] stop
+				 */
 
-				if (tmpFileURL_tFileUnarchive_1.endsWith(".tar.gz") || tmpFileURL_tFileUnarchive_1.endsWith(".tgz")) {
-					org.apache.tools.tar.TarInputStream zip_tFileUnarchive_1 = null;
-					java.io.InputStream inputStream_tFileUnarchive_1 = null;
+				/**
+				 * [tFileInputDelimited_1 begin ] start
+				 */
+
+				ok_Hash.put("tFileInputDelimited_1", false);
+				start_Hash.put("tFileInputDelimited_1", System.currentTimeMillis());
+
+				currentComponent = "tFileInputDelimited_1";
+
+				int tos_count_tFileInputDelimited_1 = 0;
+
+				final routines.system.RowState rowstate_tFileInputDelimited_1 = new routines.system.RowState();
+
+				int nb_line_tFileInputDelimited_1 = 0;
+				org.talend.fileprocess.FileInputDelimited fid_tFileInputDelimited_1 = null;
+				int limit_tFileInputDelimited_1 = -1;
+				try {
+
+					Object filename_tFileInputDelimited_1 = context.config_filepath;
+					if (filename_tFileInputDelimited_1 instanceof java.io.InputStream) {
+
+						int footer_value_tFileInputDelimited_1 = 0, random_value_tFileInputDelimited_1 = -1;
+						if (footer_value_tFileInputDelimited_1 > 0 || random_value_tFileInputDelimited_1 > 0) {
+							throw new java.lang.Exception(
+									"When the input source is a stream,footer and random shouldn't be bigger than 0.");
+						}
+
+					}
 					try {
-						inputStream_tFileUnarchive_1 = new java.io.FileInputStream(zipFileURL_tFileUnarchive_1);
-						inputStream_tFileUnarchive_1 = new java.util.zip.GZIPInputStream(inputStream_tFileUnarchive_1);
-						zip_tFileUnarchive_1 = new org.apache.tools.tar.TarInputStream(inputStream_tFileUnarchive_1);
+						fid_tFileInputDelimited_1 = new org.talend.fileprocess.FileInputDelimited(
+								context.config_filepath, "US-ASCII", ";", "\n", false, 0, 0,
+								limit_tFileInputDelimited_1, -1, false);
+					} catch (java.lang.Exception e) {
 
-						org.apache.tools.tar.TarEntry entry_tFileUnarchive_1 = null;
-						java.io.InputStream is_tFileUnarchive_1 = null;
-						while ((entry_tFileUnarchive_1 = zip_tFileUnarchive_1.getNextEntry()) != null) {
-							boolean isDirectory_tFileUnarchive_1 = entry_tFileUnarchive_1.isDirectory();
-							if (!isDirectory_tFileUnarchive_1) {
-								is_tFileUnarchive_1 = zip_tFileUnarchive_1;
+						throw e;
+
+					}
+
+					while (fid_tFileInputDelimited_1 != null && fid_tFileInputDelimited_1.nextRecord()) {
+						rowstate_tFileInputDelimited_1.reset();
+
+						row1 = null;
+
+						boolean whetherReject_tFileInputDelimited_1 = false;
+						row1 = new row1Struct();
+						try {
+
+							int columnIndexWithD_tFileInputDelimited_1 = 0;
+
+							columnIndexWithD_tFileInputDelimited_1 = 0;
+
+							row1.key = fid_tFileInputDelimited_1.get(columnIndexWithD_tFileInputDelimited_1);
+
+							columnIndexWithD_tFileInputDelimited_1 = 1;
+
+							row1.value = fid_tFileInputDelimited_1.get(columnIndexWithD_tFileInputDelimited_1);
+
+							if (rowstate_tFileInputDelimited_1.getException() != null) {
+								throw rowstate_tFileInputDelimited_1.getException();
 							}
-							String filename_tFileUnarchive_1 = entry_tFileUnarchive_1.getName();
-							util_tFileUnarchive_1.output(outputPath_tFileUnarchive_1, filename_tFileUnarchive_1,
-									isDirectory_tFileUnarchive_1, is_tFileUnarchive_1);
 
-							java.io.File f = new java.io.File(
-									outputPath_tFileUnarchive_1 + "/" + filename_tFileUnarchive_1);
-							f.setLastModified(entry_tFileUnarchive_1.getModTime().getTime());
-						}
-					} catch (Exception e) {
-						throw e;
-					} finally {
-						if (zip_tFileUnarchive_1 != null) {
-							zip_tFileUnarchive_1.close();
-						} else if (inputStream_tFileUnarchive_1 != null) {
-							inputStream_tFileUnarchive_1.close();
-						}
-					}
-				} else if (tmpFileURL_tFileUnarchive_1.endsWith(".tar")) {
-					org.apache.tools.tar.TarInputStream zip_tFileUnarchive_1 = null;
-					java.io.InputStream inputStream_tFileUnarchive_1 = null;
-					try {
-						inputStream_tFileUnarchive_1 = new java.io.FileInputStream(zipFileURL_tFileUnarchive_1);
-						zip_tFileUnarchive_1 = new org.apache.tools.tar.TarInputStream(inputStream_tFileUnarchive_1);
+						} catch (java.lang.Exception e) {
+							whetherReject_tFileInputDelimited_1 = true;
 
-						org.apache.tools.tar.TarEntry entry_tFileUnarchive_1 = null;
-						java.io.InputStream is_tFileUnarchive_1 = null;
-						while ((entry_tFileUnarchive_1 = zip_tFileUnarchive_1.getNextEntry()) != null) {
-							boolean isDirectory_tFileUnarchive_1 = entry_tFileUnarchive_1.isDirectory();
-							if (!isDirectory_tFileUnarchive_1) {
-								is_tFileUnarchive_1 = zip_tFileUnarchive_1;
+							throw (e);
+
+						}
+
+						/**
+						 * [tFileInputDelimited_1 begin ] stop
+						 */
+
+						/**
+						 * [tFileInputDelimited_1 main ] start
+						 */
+
+						currentComponent = "tFileInputDelimited_1";
+
+						tos_count_tFileInputDelimited_1++;
+
+						/**
+						 * [tFileInputDelimited_1 main ] stop
+						 */
+
+						/**
+						 * [tFileInputDelimited_1 process_data_begin ] start
+						 */
+
+						currentComponent = "tFileInputDelimited_1";
+
+						/**
+						 * [tFileInputDelimited_1 process_data_begin ] stop
+						 */
+// Start of branch "row1"
+						if (row1 != null) {
+
+							/**
+							 * [tContextLoad_1 main ] start
+							 */
+
+							currentComponent = "tContextLoad_1";
+
+							//////////////////////////
+							String tmp_key_tContextLoad_1 = null;
+							String key_tContextLoad_1 = null;
+							if (row1.key != null) {
+								tmp_key_tContextLoad_1 = row1.key.trim();
+								if ((tmp_key_tContextLoad_1.startsWith("#")
+										|| tmp_key_tContextLoad_1.startsWith("!"))) {
+									tmp_key_tContextLoad_1 = null;
+								} else {
+									row1.key = tmp_key_tContextLoad_1;
+								}
 							}
-							String filename_tFileUnarchive_1 = entry_tFileUnarchive_1.getName();
-							util_tFileUnarchive_1.output(outputPath_tFileUnarchive_1, filename_tFileUnarchive_1,
-									isDirectory_tFileUnarchive_1, is_tFileUnarchive_1);
+							if (row1.key != null) {
+								key_tContextLoad_1 = row1.key;
+							}
+							String value_tContextLoad_1 = null;
+							if (row1.value != null) {
+								value_tContextLoad_1 = row1.value;
+							}
 
-							java.io.File f = new java.io.File(
-									outputPath_tFileUnarchive_1 + "/" + filename_tFileUnarchive_1);
-							f.setLastModified(entry_tFileUnarchive_1.getModTime().getTime());
+							String currentValue_tContextLoad_1 = value_tContextLoad_1;
 
-						}
-					} catch (Exception e) {
-						throw e;
-					} finally {
-						if (zip_tFileUnarchive_1 != null) {
-							zip_tFileUnarchive_1.close();
-						} else if (inputStream_tFileUnarchive_1 != null) {
-							inputStream_tFileUnarchive_1.close();
+							System.out.println("tContextLoad_1 set key \"" + key_tContextLoad_1 + "\" with value \""
+									+ currentValue_tContextLoad_1 + "\"");
+							if (tmp_key_tContextLoad_1 != null) {
+								try {
+									if (key_tContextLoad_1 != null && "config_filepath".equals(key_tContextLoad_1)) {
+										context.config_filepath = value_tContextLoad_1;
+									}
+
+									if (key_tContextLoad_1 != null && "uri".equals(key_tContextLoad_1)) {
+										context.uri = value_tContextLoad_1;
+									}
+
+									if (key_tContextLoad_1 != null && "postLenght".equals(key_tContextLoad_1)) {
+
+										context.postLenght = Integer.parseInt(value_tContextLoad_1);
+
+									}
+
+									if (context.getProperty(key_tContextLoad_1) != null) {
+										assignList_tContextLoad_1.add(key_tContextLoad_1);
+									} else {
+										newPropertyList_tContextLoad_1.add(key_tContextLoad_1);
+									}
+									if (value_tContextLoad_1 == null) {
+										context.setProperty(key_tContextLoad_1, "");
+									} else {
+										context.setProperty(key_tContextLoad_1, value_tContextLoad_1);
+									}
+								} catch (java.lang.Exception e) {
+									System.err.println("Setting a value for the key \"" + key_tContextLoad_1
+											+ "\" has failed. Error message: " + e.getMessage());
+								}
+								nb_line_tContextLoad_1++;
+							}
+							//////////////////////////
+
+							tos_count_tContextLoad_1++;
+
+							/**
+							 * [tContextLoad_1 main ] stop
+							 */
+
+							/**
+							 * [tContextLoad_1 process_data_begin ] start
+							 */
+
+							currentComponent = "tContextLoad_1";
+
+							/**
+							 * [tContextLoad_1 process_data_begin ] stop
+							 */
+
+							/**
+							 * [tContextLoad_1 process_data_end ] start
+							 */
+
+							currentComponent = "tContextLoad_1";
+
+							/**
+							 * [tContextLoad_1 process_data_end ] stop
+							 */
+
+						} // End of branch "row1"
+
+						/**
+						 * [tFileInputDelimited_1 process_data_end ] start
+						 */
+
+						currentComponent = "tFileInputDelimited_1";
+
+						/**
+						 * [tFileInputDelimited_1 process_data_end ] stop
+						 */
+
+						/**
+						 * [tFileInputDelimited_1 end ] start
+						 */
+
+						currentComponent = "tFileInputDelimited_1";
+
+					}
+				} finally {
+					if (!((Object) (context.config_filepath) instanceof java.io.InputStream)) {
+						if (fid_tFileInputDelimited_1 != null) {
+							fid_tFileInputDelimited_1.close();
 						}
 					}
-				} else if (tmpFileURL_tFileUnarchive_1.endsWith(".gz")) {
-					java.util.zip.GZIPInputStream zip_tFileUnarchive_1 = null;
-					java.io.InputStream inputStream_tFileUnarchive_1 = null;
-					try {
-						inputStream_tFileUnarchive_1 = new java.io.FileInputStream(
-								new java.io.File(zipFileURL_tFileUnarchive_1));
-						zip_tFileUnarchive_1 = new java.util.zip.GZIPInputStream(inputStream_tFileUnarchive_1);
+					if (fid_tFileInputDelimited_1 != null) {
+						globalMap.put("tFileInputDelimited_1_NB_LINE", fid_tFileInputDelimited_1.getRowNumber());
 
-						java.io.InputStream is_tFileUnarchive_1 = zip_tFileUnarchive_1;
-						String fullName_tFileUnarchive_1 = new java.io.File(zipFileURL_tFileUnarchive_1).getName();
-						String filename_tFileUnarchive_1 = fullName_tFileUnarchive_1.substring(0,
-								fullName_tFileUnarchive_1.length() - 3);
-						util_tFileUnarchive_1.output(outputPath_tFileUnarchive_1, filename_tFileUnarchive_1,
-								is_tFileUnarchive_1);
-					} catch (Exception e) {
-						throw e;
-					} finally {
-						if (zip_tFileUnarchive_1 != null) {
-							zip_tFileUnarchive_1.close();
-						} else if (inputStream_tFileUnarchive_1 != null) {
-							inputStream_tFileUnarchive_1.close();
-						}
-					}
-				} else {
-					// the others all use the ZIP to decompression
-					com.talend.compress.zip.Unzip unzip_tFileUnarchive_1 = new com.talend.compress.zip.Unzip(
-							zipFileURL_tFileUnarchive_1, outputPath_tFileUnarchive_1);
-					unzip_tFileUnarchive_1.setNeedPassword(false);
-
-					final String decryptedPassword_tFileUnarchive_1 = routines.system.PasswordEncryptUtil
-							.decryptPassword("enc:routine.encryption.key.v1:B4je9lKmKj9Zua8/hSbYc/e5vd9EacL9j4RsBA==");
-
-					unzip_tFileUnarchive_1.setPassword(decryptedPassword_tFileUnarchive_1);
-					unzip_tFileUnarchive_1.setCheckArchive(false);
-					unzip_tFileUnarchive_1.setVerbose(true);
-					unzip_tFileUnarchive_1.setExtractPath(true);
-					unzip_tFileUnarchive_1.setUtil(util_tFileUnarchive_1);
-					unzip_tFileUnarchive_1.setUseZip4jDecryption(true);
-
-					try {
-						unzip_tFileUnarchive_1.doUnzip();
-					} catch (Exception e) {
-						throw e;
 					}
 				}
 
-				for (com.talend.compress.zip.UnzippedFile uftFileUnarchive_1 : util_tFileUnarchive_1.unzippedFiles) {
-					globalMap.put("tFileUnarchive_1_CURRENT_FILE", uftFileUnarchive_1.fileName);
-					globalMap.put("tFileUnarchive_1_CURRENT_FILEPATH", uftFileUnarchive_1.filePath);
-
-					/**
-					 * [tFileUnarchive_1 begin ] stop
-					 */
-
-					/**
-					 * [tFileUnarchive_1 main ] start
-					 */
-
-					currentComponent = "tFileUnarchive_1";
-
-					tos_count_tFileUnarchive_1++;
-
-					/**
-					 * [tFileUnarchive_1 main ] stop
-					 */
-
-					/**
-					 * [tFileUnarchive_1 process_data_begin ] start
-					 */
-
-					currentComponent = "tFileUnarchive_1";
-
-					/**
-					 * [tFileUnarchive_1 process_data_begin ] stop
-					 */
-
-					/**
-					 * [tFileUnarchive_1 process_data_end ] start
-					 */
-
-					currentComponent = "tFileUnarchive_1";
-
-					/**
-					 * [tFileUnarchive_1 process_data_end ] stop
-					 */
-
-					/**
-					 * [tFileUnarchive_1 end ] start
-					 */
-
-					currentComponent = "tFileUnarchive_1";
-
-				}
-
-				ok_Hash.put("tFileUnarchive_1", true);
-				end_Hash.put("tFileUnarchive_1", System.currentTimeMillis());
-
-				tFileTouch_1Process(globalMap);
+				ok_Hash.put("tFileInputDelimited_1", true);
+				end_Hash.put("tFileInputDelimited_1", System.currentTimeMillis());
 
 				/**
-				 * [tFileUnarchive_1 end ] stop
+				 * [tFileInputDelimited_1 end ] stop
 				 */
+
+				/**
+				 * [tContextLoad_1 end ] start
+				 */
+
+				currentComponent = "tContextLoad_1";
+
+				java.util.Enumeration<?> enu_tContextLoad_1 = context.propertyNames();
+				while (enu_tContextLoad_1.hasMoreElements()) {
+					String key_tContextLoad_1 = (String) enu_tContextLoad_1.nextElement();
+					if (!assignList_tContextLoad_1.contains(key_tContextLoad_1)
+							&& !newPropertyList_tContextLoad_1.contains(key_tContextLoad_1)) {
+						noAssignList_tContextLoad_1.add(key_tContextLoad_1);
+					}
+				}
+
+				String newPropertyStr_tContextLoad_1 = newPropertyList_tContextLoad_1.toString();
+				String newProperty_tContextLoad_1 = newPropertyStr_tContextLoad_1.substring(1,
+						newPropertyStr_tContextLoad_1.length() - 1);
+
+				String noAssignStr_tContextLoad_1 = noAssignList_tContextLoad_1.toString();
+				String noAssign_tContextLoad_1 = noAssignStr_tContextLoad_1.substring(1,
+						noAssignStr_tContextLoad_1.length() - 1);
+
+				globalMap.put("tContextLoad_1_KEY_NOT_INCONTEXT", newProperty_tContextLoad_1);
+				globalMap.put("tContextLoad_1_KEY_NOT_LOADED", noAssign_tContextLoad_1);
+
+				globalMap.put("tContextLoad_1_NB_LINE", nb_line_tContextLoad_1);
+
+				List<String> parametersToEncrypt_tContextLoad_1 = new java.util.ArrayList<String>();
+
+				resumeUtil.addLog("NODE", "NODE:tContextLoad_1", "", Thread.currentThread().getId() + "", "", "", "",
+						"", resumeUtil.convertToJsonText(context, parametersToEncrypt_tContextLoad_1));
+
+				ok_Hash.put("tContextLoad_1", true);
+				end_Hash.put("tContextLoad_1", System.currentTimeMillis());
+
+				/**
+				 * [tContextLoad_1 end ] stop
+				 */
+
 			} // end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil.addLog("CHECKPOINT", "CONNECTION:SUBJOB_OK:tFileInputDelimited_1:OnSubjobOk", "",
+						Thread.currentThread().getId() + "", "", "", "", "", "");
+			}
+
+			tRSSInput_1Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -544,14 +813,25 @@ public class beforeRunJobs implements TalendJob {
 			try {
 
 				/**
-				 * [tFileUnarchive_1 finally ] start
+				 * [tFileInputDelimited_1 finally ] start
 				 */
 
-				currentComponent = "tFileUnarchive_1";
+				currentComponent = "tFileInputDelimited_1";
 
 				/**
-				 * [tFileUnarchive_1 finally ] stop
+				 * [tFileInputDelimited_1 finally ] stop
 				 */
+
+				/**
+				 * [tContextLoad_1 finally ] start
+				 */
+
+				currentComponent = "tContextLoad_1";
+
+				/**
+				 * [tContextLoad_1 finally ] stop
+				 */
+
 			} catch (java.lang.Exception e) {
 				// ignore
 			} catch (java.lang.Error error) {
@@ -560,11 +840,166 @@ public class beforeRunJobs implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tFileUnarchive_1_SUBPROCESS_STATE", 1);
+		globalMap.put("tFileInputDelimited_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tFileTouch_1Process(final java.util.Map<String, Object> globalMap) throws TalendException {
-		globalMap.put("tFileTouch_1_SUBPROCESS_STATE", 0);
+	public static class row2Struct implements routines.system.IPersistableRow<row2Struct> {
+		final static byte[] commonByteArrayLock_LOCAL_PROJECT_tContextLoad_and_file = new byte[0];
+		static byte[] commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[0];
+
+		public String TITLE;
+
+		public String getTITLE() {
+			return this.TITLE;
+		}
+
+		public String DESCRIPTION;
+
+		public String getDESCRIPTION() {
+			return this.DESCRIPTION;
+		}
+
+		public String PUBDATE;
+
+		public String getPUBDATE() {
+			return this.PUBDATE;
+		}
+
+		public String LINK;
+
+		public String getLINK() {
+			return this.LINK;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_LOCAL_PROJECT_tContextLoad_and_file.length) {
+					if (length < 1024 && commonByteArray_LOCAL_PROJECT_tContextLoad_and_file.length == 0) {
+						commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[1024];
+					} else {
+						commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray_LOCAL_PROJECT_tContextLoad_and_file, 0, length);
+				strReturn = new String(commonByteArray_LOCAL_PROJECT_tContextLoad_and_file, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos) throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_LOCAL_PROJECT_tContextLoad_and_file) {
+
+				try {
+
+					int length = 0;
+
+					this.TITLE = readString(dis);
+
+					this.DESCRIPTION = readString(dis);
+
+					this.PUBDATE = readString(dis);
+
+					this.LINK = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.TITLE, dos);
+
+				// String
+
+				writeString(this.DESCRIPTION, dos);
+
+				// String
+
+				writeString(this.PUBDATE, dos);
+
+				// String
+
+				writeString(this.LINK, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("TITLE=" + TITLE);
+			sb.append(",DESCRIPTION=" + DESCRIPTION);
+			sb.append(",PUBDATE=" + PUBDATE);
+			sb.append(",LINK=" + LINK);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row2Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tRSSInput_1Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+		globalMap.put("tRSSInput_1_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -583,79 +1018,239 @@ public class beforeRunJobs implements TalendJob {
 			if (resumeIt || globalResumeTicket) { // start the resume
 				globalResumeTicket = true;
 
-				/**
-				 * [tFileTouch_1 begin ] start
-				 */
-
-				ok_Hash.put("tFileTouch_1", false);
-				start_Hash.put("tFileTouch_1", System.currentTimeMillis());
-
-				currentComponent = "tFileTouch_1";
-
-				int tos_count_tFileTouch_1 = 0;
+				row2Struct row2 = new row2Struct();
 
 				/**
-				 * [tFileTouch_1 begin ] stop
+				 * [tLogRow_1 begin ] start
+				 */
+
+				ok_Hash.put("tLogRow_1", false);
+				start_Hash.put("tLogRow_1", System.currentTimeMillis());
+
+				currentComponent = "tLogRow_1";
+
+				int tos_count_tLogRow_1 = 0;
+
+				///////////////////////
+
+				final String OUTPUT_FIELD_SEPARATOR_tLogRow_1 = "|";
+				java.io.PrintStream consoleOut_tLogRow_1 = null;
+
+				StringBuilder strBuffer_tLogRow_1 = null;
+				int nb_line_tLogRow_1 = 0;
+///////////////////////    			
+
+				/**
+				 * [tLogRow_1 begin ] stop
 				 */
 
 				/**
-				 * [tFileTouch_1 main ] start
+				 * [tRSSInput_1 begin ] start
 				 */
 
-				currentComponent = "tFileTouch_1";
+				ok_Hash.put("tRSSInput_1", false);
+				start_Hash.put("tRSSInput_1", System.currentTimeMillis());
 
-				java.io.File file_tFileTouch_1 = new java.io.File(
-						(context.root.concat("talend_files_0.1/out/empty.txt")));
-				java.io.File dir_tFileTouch_1 = file_tFileTouch_1.getParentFile();
-				if (dir_tFileTouch_1 != null) {
-					dir_tFileTouch_1.mkdirs();
+				currentComponent = "tRSSInput_1";
+
+				int tos_count_tRSSInput_1 = 0;
+
+				int nb_line_tRSSInput_1 = 0;
+				String rssurltRSSInput_1 = context.uri;
+				int aMounttRSSInput_1 = context.postLenght;
+				java.net.URL urltRSSInput_1 = new java.net.URL(rssurltRSSInput_1);
+				it.sauronsoftware.feed4j.bean.Feed feedtRSSInput_1 = null;
+				boolean ifInvalidtRSSInput_1 = false;
+
+				try {
+					feedtRSSInput_1 = it.sauronsoftware.feed4j.FeedParser.parse(urltRSSInput_1);
+				} catch (it.sauronsoftware.feed4j.FeedXMLParseException etRSSInput_1) {
+					System.err.print(etRSSInput_1.getMessage());
+					ifInvalidtRSSInput_1 = true;
 				}
 
-				// create new file
-				boolean resulttFileTouch_1 = file_tFileTouch_1.createNewFile();
-				// if file already exists, modify the last-modified-time of the file
-				if (!resulttFileTouch_1) {
-					file_tFileTouch_1.setLastModified((new Date()).getTime());
+				int itemstRSSInput_1 = feedtRSSInput_1.getItemCount();
+
+				if (aMounttRSSInput_1 < itemstRSSInput_1) {
+					itemstRSSInput_1 = aMounttRSSInput_1;
 				}
 
-				tos_count_tFileTouch_1++;
+				if (!ifInvalidtRSSInput_1) {
+					String rowtRSSInput_1[] = new String[4];
+
+					for (int i_tRSSInput_1 = 0; i_tRSSInput_1 < itemstRSSInput_1; i_tRSSInput_1++) {
+						it.sauronsoftware.feed4j.bean.FeedItem itmtRSSInput_1 = feedtRSSInput_1.getItem(i_tRSSInput_1);
+						rowtRSSInput_1[0] = itmtRSSInput_1.getTitle();
+						rowtRSSInput_1[1] = itmtRSSInput_1.getDescriptionAsText();
+						rowtRSSInput_1[2] = (itmtRSSInput_1.getPubDate() == null ? ""
+								: itmtRSSInput_1.getPubDate().toGMTString());
+						rowtRSSInput_1[3] = (itmtRSSInput_1.getLink() == null ? ""
+								: itmtRSSInput_1.getLink().toString());
+
+						row2.TITLE = rowtRSSInput_1[0];
+
+						row2.DESCRIPTION = rowtRSSInput_1[1];
+
+						row2.PUBDATE = rowtRSSInput_1[2];
+
+						row2.LINK = rowtRSSInput_1[3];
+
+						/**
+						 * [tRSSInput_1 begin ] stop
+						 */
+
+						/**
+						 * [tRSSInput_1 main ] start
+						 */
+
+						currentComponent = "tRSSInput_1";
+
+						tos_count_tRSSInput_1++;
+
+						/**
+						 * [tRSSInput_1 main ] stop
+						 */
+
+						/**
+						 * [tRSSInput_1 process_data_begin ] start
+						 */
+
+						currentComponent = "tRSSInput_1";
+
+						/**
+						 * [tRSSInput_1 process_data_begin ] stop
+						 */
+
+						/**
+						 * [tLogRow_1 main ] start
+						 */
+
+						currentComponent = "tLogRow_1";
+
+///////////////////////		
+
+						strBuffer_tLogRow_1 = new StringBuilder();
+
+						if (row2.TITLE != null) { //
+
+							strBuffer_tLogRow_1.append(String.valueOf(row2.TITLE));
+
+						} //
+
+						strBuffer_tLogRow_1.append("|");
+
+						if (row2.DESCRIPTION != null) { //
+
+							strBuffer_tLogRow_1.append(String.valueOf(row2.DESCRIPTION));
+
+						} //
+
+						strBuffer_tLogRow_1.append("|");
+
+						if (row2.PUBDATE != null) { //
+
+							strBuffer_tLogRow_1.append(String.valueOf(row2.PUBDATE));
+
+						} //
+
+						strBuffer_tLogRow_1.append("|");
+
+						if (row2.LINK != null) { //
+
+							strBuffer_tLogRow_1.append(String.valueOf(row2.LINK));
+
+						} //
+
+						if (globalMap.get("tLogRow_CONSOLE") != null) {
+							consoleOut_tLogRow_1 = (java.io.PrintStream) globalMap.get("tLogRow_CONSOLE");
+						} else {
+							consoleOut_tLogRow_1 = new java.io.PrintStream(
+									new java.io.BufferedOutputStream(System.out));
+							globalMap.put("tLogRow_CONSOLE", consoleOut_tLogRow_1);
+						}
+						consoleOut_tLogRow_1.println(strBuffer_tLogRow_1.toString());
+						consoleOut_tLogRow_1.flush();
+						nb_line_tLogRow_1++;
+//////
+
+//////                    
+
+///////////////////////    			
+
+						tos_count_tLogRow_1++;
+
+						/**
+						 * [tLogRow_1 main ] stop
+						 */
+
+						/**
+						 * [tLogRow_1 process_data_begin ] start
+						 */
+
+						currentComponent = "tLogRow_1";
+
+						/**
+						 * [tLogRow_1 process_data_begin ] stop
+						 */
+
+						/**
+						 * [tLogRow_1 process_data_end ] start
+						 */
+
+						currentComponent = "tLogRow_1";
+
+						/**
+						 * [tLogRow_1 process_data_end ] stop
+						 */
+
+						/**
+						 * [tRSSInput_1 process_data_end ] start
+						 */
+
+						currentComponent = "tRSSInput_1";
+
+						/**
+						 * [tRSSInput_1 process_data_end ] stop
+						 */
+
+						/**
+						 * [tRSSInput_1 end ] start
+						 */
+
+						currentComponent = "tRSSInput_1";
+
+						nb_line_tRSSInput_1++;
+					} // end if (!ifInvalidtRSSInput_1)
+				}
+
+				globalMap.put("tRSSInput_1_NB_LINE", nb_line_tRSSInput_1);
+
+				ok_Hash.put("tRSSInput_1", true);
+				end_Hash.put("tRSSInput_1", System.currentTimeMillis());
 
 				/**
-				 * [tFileTouch_1 main ] stop
+				 * [tRSSInput_1 end ] stop
 				 */
 
 				/**
-				 * [tFileTouch_1 process_data_begin ] start
+				 * [tLogRow_1 end ] start
 				 */
 
-				currentComponent = "tFileTouch_1";
+				currentComponent = "tLogRow_1";
+
+//////
+//////
+				globalMap.put("tLogRow_1_NB_LINE", nb_line_tLogRow_1);
+
+///////////////////////    			
+
+				ok_Hash.put("tLogRow_1", true);
+				end_Hash.put("tLogRow_1", System.currentTimeMillis());
 
 				/**
-				 * [tFileTouch_1 process_data_begin ] stop
+				 * [tLogRow_1 end ] stop
 				 */
 
-				/**
-				 * [tFileTouch_1 process_data_end ] start
-				 */
-
-				currentComponent = "tFileTouch_1";
-
-				/**
-				 * [tFileTouch_1 process_data_end ] stop
-				 */
-
-				/**
-				 * [tFileTouch_1 end ] start
-				 */
-
-				currentComponent = "tFileTouch_1";
-
-				ok_Hash.put("tFileTouch_1", true);
-				end_Hash.put("tFileTouch_1", System.currentTimeMillis());
-
-				/**
-				 * [tFileTouch_1 end ] stop
-				 */
 			} // end the resume
 
 		} catch (java.lang.Exception e) {
@@ -671,14 +1266,25 @@ public class beforeRunJobs implements TalendJob {
 			try {
 
 				/**
-				 * [tFileTouch_1 finally ] start
+				 * [tRSSInput_1 finally ] start
 				 */
 
-				currentComponent = "tFileTouch_1";
+				currentComponent = "tRSSInput_1";
 
 				/**
-				 * [tFileTouch_1 finally ] stop
+				 * [tRSSInput_1 finally ] stop
 				 */
+
+				/**
+				 * [tLogRow_1 finally ] start
+				 */
+
+				currentComponent = "tLogRow_1";
+
+				/**
+				 * [tLogRow_1 finally ] stop
+				 */
+
 			} catch (java.lang.Exception e) {
 				// ignore
 			} catch (java.lang.Error error) {
@@ -687,7 +1293,7 @@ public class beforeRunJobs implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tFileTouch_1_SUBPROCESS_STATE", 1);
+		globalMap.put("tRSSInput_1_SUBPROCESS_STATE", 1);
 	}
 
 	public String resuming_logs_dir_path = null;
@@ -702,7 +1308,7 @@ public class beforeRunJobs implements TalendJob {
 	public int portTraces = 4334;
 	public String clientHost;
 	public String defaultClientHost = "localhost";
-	public String contextStr = "demo";
+	public String contextStr = "Default";
 	public boolean isDefaultContext = true;
 	public String pid = "0";
 	public String rootPid = null;
@@ -731,9 +1337,9 @@ public class beforeRunJobs implements TalendJob {
 	public String status = "";
 
 	public static void main(String[] args) {
-		final beforeRunJobs beforeRunJobsClass = new beforeRunJobs();
+		final tContextLoad_and_file tContextLoad_and_fileClass = new tContextLoad_and_file();
 
-		int exitCode = beforeRunJobsClass.runJobInTOS(args);
+		int exitCode = tContextLoad_and_fileClass.runJobInTOS(args);
 
 		System.exit(exitCode);
 	}
@@ -789,10 +1395,10 @@ public class beforeRunJobs implements TalendJob {
 		try {
 			// call job/subjob with an existing context, like: --context=production. if
 			// without this parameter, there will use the default context instead.
-			java.io.InputStream inContext = beforeRunJobs.class.getClassLoader()
-					.getResourceAsStream("local_project/beforerunjobs_0_1/contexts/" + contextStr + ".properties");
+			java.io.InputStream inContext = tContextLoad_and_file.class.getClassLoader().getResourceAsStream(
+					"local_project/tcontextload_and_file_0_1/contexts/" + contextStr + ".properties");
 			if (inContext == null) {
-				inContext = beforeRunJobs.class.getClassLoader()
+				inContext = tContextLoad_and_file.class.getClassLoader()
 						.getResourceAsStream("config/contexts/" + contextStr + ".properties");
 			}
 			if (inContext != null) {
@@ -820,10 +1426,19 @@ public class beforeRunJobs implements TalendJob {
 			}
 			class ContextProcessing {
 				private void processContext_0() {
-					context.setContextType("root", "id_String");
-					context.root = (String) context.getProperty("root");
-					context.setContextType("workspace", "id_String");
-					context.workspace = (String) context.getProperty("workspace");
+					context.setContextType("config_filepath", "id_String");
+					context.config_filepath = (String) context.getProperty("config_filepath");
+					context.setContextType("uri", "id_String");
+					context.uri = (String) context.getProperty("uri");
+					context.setContextType("postLenght", "id_Integer");
+					try {
+						context.postLenght = routines.system.ParserUtils
+								.parseTo_Integer(context.getProperty("postLenght"));
+					} catch (NumberFormatException e) {
+						System.err.println(String.format("Null value will be used for context parameter %s: %s",
+								"postLenght", e.getMessage()));
+						context.postLenght = null;
+					}
 				}
 
 				public void processAllContext() {
@@ -839,11 +1454,14 @@ public class beforeRunJobs implements TalendJob {
 
 		// get context value from parent directly
 		if (parentContextMap != null && !parentContextMap.isEmpty()) {
-			if (parentContextMap.containsKey("root")) {
-				context.root = (String) parentContextMap.get("root");
+			if (parentContextMap.containsKey("config_filepath")) {
+				context.config_filepath = (String) parentContextMap.get("config_filepath");
 			}
-			if (parentContextMap.containsKey("workspace")) {
-				context.workspace = (String) parentContextMap.get("workspace");
+			if (parentContextMap.containsKey("uri")) {
+				context.uri = (String) parentContextMap.get("uri");
+			}
+			if (parentContextMap.containsKey("postLenght")) {
+				context.postLenght = (Integer) parentContextMap.get("postLenght");
 			}
 		}
 
@@ -872,14 +1490,14 @@ public class beforeRunJobs implements TalendJob {
 
 		try {
 			errorCode = null;
-			tFileUnarchive_1Process(globalMap);
+			tFileInputDelimited_1Process(globalMap);
 			if (!"failure".equals(status)) {
 				status = "end";
 			}
-		} catch (TalendException e_tFileUnarchive_1) {
-			globalMap.put("tFileUnarchive_1_SUBPROCESS_STATE", -1);
+		} catch (TalendException e_tFileInputDelimited_1) {
+			globalMap.put("tFileInputDelimited_1_SUBPROCESS_STATE", -1);
 
-			e_tFileUnarchive_1.printStackTrace();
+			e_tFileInputDelimited_1.printStackTrace();
 
 		}
 
@@ -893,8 +1511,8 @@ public class beforeRunJobs implements TalendJob {
 
 		endUsedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 		if (false) {
-			System.out
-					.println((endUsedMemory - startUsedMemory) + " bytes memory increase when running : beforeRunJobs");
+			System.out.println(
+					(endUsedMemory - startUsedMemory) + " bytes memory increase when running : tContextLoad_and_file");
 		}
 
 		int returnCode = 0;
@@ -1030,6 +1648,6 @@ public class beforeRunJobs implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 35129 characters generated by Talend Open Studio for Data Integration on the
- * 14 janvier 2021 Ã  13:37:57 CET
+ * 51557 characters generated by Talend Open Studio for Data Integration on the
+ * 14 janvier 2021 à 13:43:23 CET
  ************************************************************************************************/

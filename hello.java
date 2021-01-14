@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package local_project.tcontextload_and_file_0_1;
+package local_project.oncomponenterror_0_1;
 
 import routines.DataOperation;
 import routines.TalendDataGenerator;
@@ -27,8 +27,8 @@ import routines.Numeric;
 import routines.TalendStringUtil;
 import routines.TalendString;
 import routines.StringHandling;
-import routines.DQTechnical;
 import routines.MDM;
+import routines.DQTechnical;
 import routines.TalendDate;
 import routines.DemoRoutines;
 import routines.DqStringHandling;
@@ -48,17 +48,20 @@ import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.util.Comparator;
 
+//the import part of tJavaRow_1
+//import java.util.List;
+
 @SuppressWarnings("unused")
 
 /**
- * Job: tContextLoad_and_file Purpose: <br>
+ * Job: onComponentError Purpose: <br>
  * Description: <br>
  * 
  * @author training@talend.com
  * @version 7.3.1.20200219_1130
  * @status
  */
-public class tContextLoad_and_file implements TalendJob {
+public class onComponentError implements TalendJob {
 
 	protected static void logIgnoredError(String message, Throwable cause) {
 		System.err.println(message);
@@ -125,42 +128,18 @@ public class tContextLoad_and_file implements TalendJob {
 
 		public void synchronizeContext() {
 
-			if (config_filepath != null) {
+			if (filepath != null) {
 
-				this.setProperty("config_filepath", config_filepath.toString());
-
-			}
-
-			if (uri != null) {
-
-				this.setProperty("uri", uri.toString());
-
-			}
-
-			if (postLenght != null) {
-
-				this.setProperty("postLenght", postLenght.toString());
+				this.setProperty("filepath", filepath.toString());
 
 			}
 
 		}
 
-		public String config_filepath;
+		public String filepath;
 
-		public String getConfig_filepath() {
-			return this.config_filepath;
-		}
-
-		public String uri;
-
-		public String getUri() {
-			return this.uri;
-		}
-
-		public Integer postLenght;
-
-		public Integer getPostLenght() {
-			return this.postLenght;
+		public String getFilepath() {
+			return this.filepath;
 		}
 	}
 
@@ -171,7 +150,7 @@ public class tContextLoad_and_file implements TalendJob {
 	}
 
 	private final String jobVersion = "0.1";
-	private final String jobName = "tContextLoad_and_file";
+	private final String jobName = "onComponentError";
 	private final String projectName = "LOCAL_PROJECT";
 	public Integer errorCode = null;
 	private String currentComponent = "";
@@ -279,14 +258,14 @@ public class tContextLoad_and_file implements TalendJob {
 				} else {
 					e.printStackTrace();
 					e.printStackTrace(errorMessagePS);
-					tContextLoad_and_file.this.exception = e;
+					onComponentError.this.exception = e;
 				}
 			}
 			if (!(e instanceof TalendException)) {
 				try {
 					for (java.lang.reflect.Method m : this.getClass().getEnclosingClass().getMethods()) {
 						if (m.getName().compareTo(currentComponent + "_error") == 0) {
-							m.invoke(tContextLoad_and_file.this, new Object[] { e, currentComponent, globalMap });
+							m.invoke(onComponentError.this, new Object[] { e, currentComponent, globalMap });
 							break;
 						}
 					}
@@ -305,39 +284,49 @@ public class tContextLoad_and_file implements TalendJob {
 
 		end_Hash.put(errorComponent, System.currentTimeMillis());
 
+		try {
+
+			errorCode = null;
+			tMsgBox_2Process(globalMap);
+			if (!"failure".equals(status)) {
+				status = "end";
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		tFileInputDelimited_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJavaRow_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap) throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
 		status = "failure";
 
 		tFileInputDelimited_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tContextLoad_1_error(Exception exception, String errorComponent,
+	public void tMsgBox_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap) throws TalendException {
 
 		end_Hash.put(errorComponent, System.currentTimeMillis());
 
 		status = "failure";
 
-		tFileInputDelimited_1_onSubJobError(exception, errorComponent, globalMap);
+		tMsgBox_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tRSSInput_1_error(Exception exception, String errorComponent,
+	public void tMsgBox_2_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap) throws TalendException {
 
 		end_Hash.put(errorComponent, System.currentTimeMillis());
 
 		status = "failure";
 
-		tRSSInput_1_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tLogRow_1_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap) throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		status = "failure";
-
-		tRSSInput_1_onSubJobError(exception, errorComponent, globalMap);
+		tMsgBox_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tFileInputDelimited_1_onSubJobError(Exception exception, String errorComponent,
@@ -348,7 +337,15 @@ public class tContextLoad_and_file implements TalendJob {
 
 	}
 
-	public void tRSSInput_1_onSubJobError(Exception exception, String errorComponent,
+	public void tMsgBox_1_onSubJobError(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap) throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tMsgBox_2_onSubJobError(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap) throws TalendException {
 
 		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread.currentThread().getId() + "", "FATAL", "",
@@ -357,19 +354,31 @@ public class tContextLoad_and_file implements TalendJob {
 	}
 
 	public static class row1Struct implements routines.system.IPersistableRow<row1Struct> {
-		final static byte[] commonByteArrayLock_LOCAL_PROJECT_tContextLoad_and_file = new byte[0];
-		static byte[] commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[0];
+		final static byte[] commonByteArrayLock_LOCAL_PROJECT_onComponentError = new byte[0];
+		static byte[] commonByteArray_LOCAL_PROJECT_onComponentError = new byte[0];
 
-		public String key;
+		public int number;
 
-		public String getKey() {
-			return this.key;
+		public int getNumber() {
+			return this.number;
 		}
 
-		public String value;
+		public String txt;
 
-		public String getValue() {
-			return this.value;
+		public String getTxt() {
+			return this.txt;
+		}
+
+		public String date;
+
+		public String getDate() {
+			return this.date;
+		}
+
+		public boolean flag;
+
+		public boolean getFlag() {
+			return this.flag;
 		}
 
 		private String readString(ObjectInputStream dis) throws IOException {
@@ -379,15 +388,15 @@ public class tContextLoad_and_file implements TalendJob {
 			if (length == -1) {
 				strReturn = null;
 			} else {
-				if (length > commonByteArray_LOCAL_PROJECT_tContextLoad_and_file.length) {
-					if (length < 1024 && commonByteArray_LOCAL_PROJECT_tContextLoad_and_file.length == 0) {
-						commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[1024];
+				if (length > commonByteArray_LOCAL_PROJECT_onComponentError.length) {
+					if (length < 1024 && commonByteArray_LOCAL_PROJECT_onComponentError.length == 0) {
+						commonByteArray_LOCAL_PROJECT_onComponentError = new byte[1024];
 					} else {
-						commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[2 * length];
+						commonByteArray_LOCAL_PROJECT_onComponentError = new byte[2 * length];
 					}
 				}
-				dis.readFully(commonByteArray_LOCAL_PROJECT_tContextLoad_and_file, 0, length);
-				strReturn = new String(commonByteArray_LOCAL_PROJECT_tContextLoad_and_file, 0, length, utf8Charset);
+				dis.readFully(commonByteArray_LOCAL_PROJECT_onComponentError, 0, length);
+				strReturn = new String(commonByteArray_LOCAL_PROJECT_onComponentError, 0, length, utf8Charset);
 			}
 			return strReturn;
 		}
@@ -404,15 +413,19 @@ public class tContextLoad_and_file implements TalendJob {
 
 		public void readData(ObjectInputStream dis) {
 
-			synchronized (commonByteArrayLock_LOCAL_PROJECT_tContextLoad_and_file) {
+			synchronized (commonByteArrayLock_LOCAL_PROJECT_onComponentError) {
 
 				try {
 
 					int length = 0;
 
-					this.key = readString(dis);
+					this.number = dis.readInt();
 
-					this.value = readString(dis);
+					this.txt = readString(dis);
+
+					this.date = readString(dis);
+
+					this.flag = dis.readBoolean();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -426,13 +439,21 @@ public class tContextLoad_and_file implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
+				// int
+
+				dos.writeInt(this.number);
+
 				// String
 
-				writeString(this.key, dos);
+				writeString(this.txt, dos);
 
 				// String
 
-				writeString(this.value, dos);
+				writeString(this.date, dos);
+
+				// boolean
+
+				dos.writeBoolean(this.flag);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -445,8 +466,10 @@ public class tContextLoad_and_file implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("key=" + key);
-			sb.append(",value=" + value);
+			sb.append("number=" + String.valueOf(number));
+			sb.append(",txt=" + txt);
+			sb.append(",date=" + date);
+			sb.append(",flag=" + String.valueOf(flag));
 			sb.append("]");
 
 			return sb.toString();
@@ -508,23 +531,20 @@ public class tContextLoad_and_file implements TalendJob {
 				row1Struct row1 = new row1Struct();
 
 				/**
-				 * [tContextLoad_1 begin ] start
+				 * [tJavaRow_1 begin ] start
 				 */
 
-				ok_Hash.put("tContextLoad_1", false);
-				start_Hash.put("tContextLoad_1", System.currentTimeMillis());
+				ok_Hash.put("tJavaRow_1", false);
+				start_Hash.put("tJavaRow_1", System.currentTimeMillis());
 
-				currentComponent = "tContextLoad_1";
+				currentComponent = "tJavaRow_1";
 
-				int tos_count_tContextLoad_1 = 0;
+				int tos_count_tJavaRow_1 = 0;
 
-				java.util.List<String> assignList_tContextLoad_1 = new java.util.ArrayList<String>();
-				java.util.List<String> newPropertyList_tContextLoad_1 = new java.util.ArrayList<String>();
-				java.util.List<String> noAssignList_tContextLoad_1 = new java.util.ArrayList<String>();
-				int nb_line_tContextLoad_1 = 0;
+				int nb_line_tJavaRow_1 = 0;
 
 				/**
-				 * [tContextLoad_1 begin ] stop
+				 * [tJavaRow_1 begin ] stop
 				 */
 
 				/**
@@ -545,7 +565,7 @@ public class tContextLoad_and_file implements TalendJob {
 				int limit_tFileInputDelimited_1 = -1;
 				try {
 
-					Object filename_tFileInputDelimited_1 = context.config_filepath;
+					Object filename_tFileInputDelimited_1 = context.filepath;
 					if (filename_tFileInputDelimited_1 instanceof java.io.InputStream) {
 
 						int footer_value_tFileInputDelimited_1 = 0, random_value_tFileInputDelimited_1 = -1;
@@ -556,9 +576,8 @@ public class tContextLoad_and_file implements TalendJob {
 
 					}
 					try {
-						fid_tFileInputDelimited_1 = new org.talend.fileprocess.FileInputDelimited(
-								context.config_filepath, "US-ASCII", ";", "\n", false, 0, 0,
-								limit_tFileInputDelimited_1, -1, false);
+						fid_tFileInputDelimited_1 = new org.talend.fileprocess.FileInputDelimited(context.filepath,
+								"ISO-8859-15", ";", "\n", true, 0, 0, limit_tFileInputDelimited_1, -1, false);
 					} catch (java.lang.Exception e) {
 
 						throw e;
@@ -576,13 +595,74 @@ public class tContextLoad_and_file implements TalendJob {
 
 							int columnIndexWithD_tFileInputDelimited_1 = 0;
 
+							String temp = "";
+
 							columnIndexWithD_tFileInputDelimited_1 = 0;
 
-							row1.key = fid_tFileInputDelimited_1.get(columnIndexWithD_tFileInputDelimited_1);
+							temp = fid_tFileInputDelimited_1.get(columnIndexWithD_tFileInputDelimited_1);
+							if (temp.length() > 0) {
+
+								try {
+
+									row1.number = ParserUtils.parseTo_int(temp);
+
+								} catch (java.lang.Exception ex_tFileInputDelimited_1) {
+									rowstate_tFileInputDelimited_1.setException(new RuntimeException(String.format(
+											"Couldn't parse value for column '%s' in '%s', value is '%s'. Details: %s",
+											"number", "row1", temp, ex_tFileInputDelimited_1),
+											ex_tFileInputDelimited_1));
+								}
+
+							} else {
+
+								try {
+									row1.number = 0;
+								} catch (java.lang.Exception ex_tFileInputDelimited_1) {
+									rowstate_tFileInputDelimited_1.setException(new RuntimeException(
+											String.format(
+													"Couldn't set default value for column '%s' in '%s'. Details: %s",
+													"number", "row1", ex_tFileInputDelimited_1),
+											ex_tFileInputDelimited_1));
+								}
+
+							}
 
 							columnIndexWithD_tFileInputDelimited_1 = 1;
 
-							row1.value = fid_tFileInputDelimited_1.get(columnIndexWithD_tFileInputDelimited_1);
+							row1.txt = fid_tFileInputDelimited_1.get(columnIndexWithD_tFileInputDelimited_1);
+
+							columnIndexWithD_tFileInputDelimited_1 = 2;
+
+							row1.date = fid_tFileInputDelimited_1.get(columnIndexWithD_tFileInputDelimited_1);
+
+							columnIndexWithD_tFileInputDelimited_1 = 3;
+
+							temp = fid_tFileInputDelimited_1.get(columnIndexWithD_tFileInputDelimited_1);
+							if (temp.length() > 0) {
+
+								try {
+
+									row1.flag = ParserUtils.parseTo_boolean(temp);
+
+								} catch (java.lang.Exception ex_tFileInputDelimited_1) {
+									rowstate_tFileInputDelimited_1.setException(new RuntimeException(String.format(
+											"Couldn't parse value for column '%s' in '%s', value is '%s'. Details: %s",
+											"flag", "row1", temp, ex_tFileInputDelimited_1), ex_tFileInputDelimited_1));
+								}
+
+							} else {
+
+								try {
+									row1.flag = false;
+								} catch (java.lang.Exception ex_tFileInputDelimited_1) {
+									rowstate_tFileInputDelimited_1.setException(new RuntimeException(
+											String.format(
+													"Couldn't set default value for column '%s' in '%s'. Details: %s",
+													"flag", "row1", ex_tFileInputDelimited_1),
+											ex_tFileInputDelimited_1));
+								}
+
+							}
 
 							if (rowstate_tFileInputDelimited_1.getException() != null) {
 								throw rowstate_tFileInputDelimited_1.getException();
@@ -624,93 +704,38 @@ public class tContextLoad_and_file implements TalendJob {
 						if (row1 != null) {
 
 							/**
-							 * [tContextLoad_1 main ] start
+							 * [tJavaRow_1 main ] start
 							 */
 
-							currentComponent = "tContextLoad_1";
+							currentComponent = "tJavaRow_1";
 
-							//////////////////////////
-							String tmp_key_tContextLoad_1 = null;
-							String key_tContextLoad_1 = null;
-							if (row1.key != null) {
-								tmp_key_tContextLoad_1 = row1.key.trim();
-								if ((tmp_key_tContextLoad_1.startsWith("#")
-										|| tmp_key_tContextLoad_1.startsWith("!"))) {
-									tmp_key_tContextLoad_1 = null;
-								} else {
-									row1.key = tmp_key_tContextLoad_1;
-								}
-							}
-							if (row1.key != null) {
-								key_tContextLoad_1 = row1.key;
-							}
-							String value_tContextLoad_1 = null;
-							if (row1.value != null) {
-								value_tContextLoad_1 = row1.value;
-							}
+							// Do nothing!
+							nb_line_tJavaRow_1++;
 
-							String currentValue_tContextLoad_1 = value_tContextLoad_1;
-
-							System.out.println("tContextLoad_1 set key \"" + key_tContextLoad_1 + "\" with value \""
-									+ currentValue_tContextLoad_1 + "\"");
-							if (tmp_key_tContextLoad_1 != null) {
-								try {
-									if (key_tContextLoad_1 != null && "config_filepath".equals(key_tContextLoad_1)) {
-										context.config_filepath = value_tContextLoad_1;
-									}
-
-									if (key_tContextLoad_1 != null && "uri".equals(key_tContextLoad_1)) {
-										context.uri = value_tContextLoad_1;
-									}
-
-									if (key_tContextLoad_1 != null && "postLenght".equals(key_tContextLoad_1)) {
-
-										context.postLenght = Integer.parseInt(value_tContextLoad_1);
-
-									}
-
-									if (context.getProperty(key_tContextLoad_1) != null) {
-										assignList_tContextLoad_1.add(key_tContextLoad_1);
-									} else {
-										newPropertyList_tContextLoad_1.add(key_tContextLoad_1);
-									}
-									if (value_tContextLoad_1 == null) {
-										context.setProperty(key_tContextLoad_1, "");
-									} else {
-										context.setProperty(key_tContextLoad_1, value_tContextLoad_1);
-									}
-								} catch (java.lang.Exception e) {
-									System.err.println("Setting a value for the key \"" + key_tContextLoad_1
-											+ "\" has failed. Error message: " + e.getMessage());
-								}
-								nb_line_tContextLoad_1++;
-							}
-							//////////////////////////
-
-							tos_count_tContextLoad_1++;
+							tos_count_tJavaRow_1++;
 
 							/**
-							 * [tContextLoad_1 main ] stop
+							 * [tJavaRow_1 main ] stop
 							 */
 
 							/**
-							 * [tContextLoad_1 process_data_begin ] start
+							 * [tJavaRow_1 process_data_begin ] start
 							 */
 
-							currentComponent = "tContextLoad_1";
+							currentComponent = "tJavaRow_1";
 
 							/**
-							 * [tContextLoad_1 process_data_begin ] stop
+							 * [tJavaRow_1 process_data_begin ] stop
 							 */
 
 							/**
-							 * [tContextLoad_1 process_data_end ] start
+							 * [tJavaRow_1 process_data_end ] start
 							 */
 
-							currentComponent = "tContextLoad_1";
+							currentComponent = "tJavaRow_1";
 
 							/**
-							 * [tContextLoad_1 process_data_end ] stop
+							 * [tJavaRow_1 process_data_end ] stop
 							 */
 
 						} // End of branch "row1"
@@ -733,7 +758,7 @@ public class tContextLoad_and_file implements TalendJob {
 
 					}
 				} finally {
-					if (!((Object) (context.config_filepath) instanceof java.io.InputStream)) {
+					if (!((Object) (context.filepath) instanceof java.io.InputStream)) {
 						if (fid_tFileInputDelimited_1 != null) {
 							fid_tFileInputDelimited_1.close();
 						}
@@ -747,58 +772,28 @@ public class tContextLoad_and_file implements TalendJob {
 				ok_Hash.put("tFileInputDelimited_1", true);
 				end_Hash.put("tFileInputDelimited_1", System.currentTimeMillis());
 
+				tMsgBox_1Process(globalMap);
+
 				/**
 				 * [tFileInputDelimited_1 end ] stop
 				 */
 
 				/**
-				 * [tContextLoad_1 end ] start
+				 * [tJavaRow_1 end ] start
 				 */
 
-				currentComponent = "tContextLoad_1";
+				currentComponent = "tJavaRow_1";
 
-				java.util.Enumeration<?> enu_tContextLoad_1 = context.propertyNames();
-				while (enu_tContextLoad_1.hasMoreElements()) {
-					String key_tContextLoad_1 = (String) enu_tContextLoad_1.nextElement();
-					if (!assignList_tContextLoad_1.contains(key_tContextLoad_1)
-							&& !newPropertyList_tContextLoad_1.contains(key_tContextLoad_1)) {
-						noAssignList_tContextLoad_1.add(key_tContextLoad_1);
-					}
-				}
+				globalMap.put("tJavaRow_1_NB_LINE", nb_line_tJavaRow_1);
 
-				String newPropertyStr_tContextLoad_1 = newPropertyList_tContextLoad_1.toString();
-				String newProperty_tContextLoad_1 = newPropertyStr_tContextLoad_1.substring(1,
-						newPropertyStr_tContextLoad_1.length() - 1);
-
-				String noAssignStr_tContextLoad_1 = noAssignList_tContextLoad_1.toString();
-				String noAssign_tContextLoad_1 = noAssignStr_tContextLoad_1.substring(1,
-						noAssignStr_tContextLoad_1.length() - 1);
-
-				globalMap.put("tContextLoad_1_KEY_NOT_INCONTEXT", newProperty_tContextLoad_1);
-				globalMap.put("tContextLoad_1_KEY_NOT_LOADED", noAssign_tContextLoad_1);
-
-				globalMap.put("tContextLoad_1_NB_LINE", nb_line_tContextLoad_1);
-
-				List<String> parametersToEncrypt_tContextLoad_1 = new java.util.ArrayList<String>();
-
-				resumeUtil.addLog("NODE", "NODE:tContextLoad_1", "", Thread.currentThread().getId() + "", "", "", "",
-						"", resumeUtil.convertToJsonText(context, parametersToEncrypt_tContextLoad_1));
-
-				ok_Hash.put("tContextLoad_1", true);
-				end_Hash.put("tContextLoad_1", System.currentTimeMillis());
+				ok_Hash.put("tJavaRow_1", true);
+				end_Hash.put("tJavaRow_1", System.currentTimeMillis());
 
 				/**
-				 * [tContextLoad_1 end ] stop
+				 * [tJavaRow_1 end ] stop
 				 */
 
 			} // end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil.addLog("CHECKPOINT", "CONNECTION:SUBJOB_OK:tFileInputDelimited_1:OnSubjobOk", "",
-						Thread.currentThread().getId() + "", "", "", "", "", "");
-			}
-
-			tRSSInput_1Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -823,13 +818,13 @@ public class tContextLoad_and_file implements TalendJob {
 				 */
 
 				/**
-				 * [tContextLoad_1 finally ] start
+				 * [tJavaRow_1 finally ] start
 				 */
 
-				currentComponent = "tContextLoad_1";
+				currentComponent = "tJavaRow_1";
 
 				/**
-				 * [tContextLoad_1 finally ] stop
+				 * [tJavaRow_1 finally ] stop
 				 */
 
 			} catch (java.lang.Exception e) {
@@ -843,163 +838,8 @@ public class tContextLoad_and_file implements TalendJob {
 		globalMap.put("tFileInputDelimited_1_SUBPROCESS_STATE", 1);
 	}
 
-	public static class row2Struct implements routines.system.IPersistableRow<row2Struct> {
-		final static byte[] commonByteArrayLock_LOCAL_PROJECT_tContextLoad_and_file = new byte[0];
-		static byte[] commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[0];
-
-		public String TITLE;
-
-		public String getTITLE() {
-			return this.TITLE;
-		}
-
-		public String DESCRIPTION;
-
-		public String getDESCRIPTION() {
-			return this.DESCRIPTION;
-		}
-
-		public String PUBDATE;
-
-		public String getPUBDATE() {
-			return this.PUBDATE;
-		}
-
-		public String LINK;
-
-		public String getLINK() {
-			return this.LINK;
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_LOCAL_PROJECT_tContextLoad_and_file.length) {
-					if (length < 1024 && commonByteArray_LOCAL_PROJECT_tContextLoad_and_file.length == 0) {
-						commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[1024];
-					} else {
-						commonByteArray_LOCAL_PROJECT_tContextLoad_and_file = new byte[2 * length];
-					}
-				}
-				dis.readFully(commonByteArray_LOCAL_PROJECT_tContextLoad_and_file, 0, length);
-				strReturn = new String(commonByteArray_LOCAL_PROJECT_tContextLoad_and_file, 0, length, utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos) throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_LOCAL_PROJECT_tContextLoad_and_file) {
-
-				try {
-
-					int length = 0;
-
-					this.TITLE = readString(dis);
-
-					this.DESCRIPTION = readString(dis);
-
-					this.PUBDATE = readString(dis);
-
-					this.LINK = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// String
-
-				writeString(this.TITLE, dos);
-
-				// String
-
-				writeString(this.DESCRIPTION, dos);
-
-				// String
-
-				writeString(this.PUBDATE, dos);
-
-				// String
-
-				writeString(this.LINK, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("TITLE=" + TITLE);
-			sb.append(",DESCRIPTION=" + DESCRIPTION);
-			sb.append(",PUBDATE=" + PUBDATE);
-			sb.append(",LINK=" + LINK);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(row2Struct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(), object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
-	public void tRSSInput_1Process(final java.util.Map<String, Object> globalMap) throws TalendException {
-		globalMap.put("tRSSInput_1_SUBPROCESS_STATE", 0);
+	public void tMsgBox_1Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+		globalMap.put("tMsgBox_1_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -1018,239 +858,75 @@ public class tContextLoad_and_file implements TalendJob {
 			if (resumeIt || globalResumeTicket) { // start the resume
 				globalResumeTicket = true;
 
-				row2Struct row2 = new row2Struct();
-
 				/**
-				 * [tLogRow_1 begin ] start
+				 * [tMsgBox_1 begin ] start
 				 */
 
-				ok_Hash.put("tLogRow_1", false);
-				start_Hash.put("tLogRow_1", System.currentTimeMillis());
+				ok_Hash.put("tMsgBox_1", false);
+				start_Hash.put("tMsgBox_1", System.currentTimeMillis());
 
-				currentComponent = "tLogRow_1";
+				currentComponent = "tMsgBox_1";
 
-				int tos_count_tLogRow_1 = 0;
-
-				///////////////////////
-
-				final String OUTPUT_FIELD_SEPARATOR_tLogRow_1 = "|";
-				java.io.PrintStream consoleOut_tLogRow_1 = null;
-
-				StringBuilder strBuffer_tLogRow_1 = null;
-				int nb_line_tLogRow_1 = 0;
-///////////////////////    			
+				int tos_count_tMsgBox_1 = 0;
 
 				/**
-				 * [tLogRow_1 begin ] stop
+				 * [tMsgBox_1 begin ] stop
 				 */
 
 				/**
-				 * [tRSSInput_1 begin ] start
+				 * [tMsgBox_1 main ] start
 				 */
 
-				ok_Hash.put("tRSSInput_1", false);
-				start_Hash.put("tRSSInput_1", System.currentTimeMillis());
+				currentComponent = "tMsgBox_1";
 
-				currentComponent = "tRSSInput_1";
+				int messageIcontMsgBox_1 = javax.swing.JOptionPane.INFORMATION_MESSAGE;
+				String titletMsgBox_1 = "Talend Open Studio";
+				String messagetMsgBox_1 = "The file is accessible, the job run correctly";
+				String resulttMsgBox_1 = null;
 
-				int tos_count_tRSSInput_1 = 0;
+				javax.swing.JOptionPane.showMessageDialog(null, messagetMsgBox_1, titletMsgBox_1, messageIcontMsgBox_1);
+				resulttMsgBox_1 = String.valueOf(1);
 
-				int nb_line_tRSSInput_1 = 0;
-				String rssurltRSSInput_1 = context.uri;
-				int aMounttRSSInput_1 = context.postLenght;
-				java.net.URL urltRSSInput_1 = new java.net.URL(rssurltRSSInput_1);
-				it.sauronsoftware.feed4j.bean.Feed feedtRSSInput_1 = null;
-				boolean ifInvalidtRSSInput_1 = false;
+				globalMap.put("tMsgBox_1_RESULT", resulttMsgBox_1);
 
-				try {
-					feedtRSSInput_1 = it.sauronsoftware.feed4j.FeedParser.parse(urltRSSInput_1);
-				} catch (it.sauronsoftware.feed4j.FeedXMLParseException etRSSInput_1) {
-					System.err.print(etRSSInput_1.getMessage());
-					ifInvalidtRSSInput_1 = true;
-				}
-
-				int itemstRSSInput_1 = feedtRSSInput_1.getItemCount();
-
-				if (aMounttRSSInput_1 < itemstRSSInput_1) {
-					itemstRSSInput_1 = aMounttRSSInput_1;
-				}
-
-				if (!ifInvalidtRSSInput_1) {
-					String rowtRSSInput_1[] = new String[4];
-
-					for (int i_tRSSInput_1 = 0; i_tRSSInput_1 < itemstRSSInput_1; i_tRSSInput_1++) {
-						it.sauronsoftware.feed4j.bean.FeedItem itmtRSSInput_1 = feedtRSSInput_1.getItem(i_tRSSInput_1);
-						rowtRSSInput_1[0] = itmtRSSInput_1.getTitle();
-						rowtRSSInput_1[1] = itmtRSSInput_1.getDescriptionAsText();
-						rowtRSSInput_1[2] = (itmtRSSInput_1.getPubDate() == null ? ""
-								: itmtRSSInput_1.getPubDate().toGMTString());
-						rowtRSSInput_1[3] = (itmtRSSInput_1.getLink() == null ? ""
-								: itmtRSSInput_1.getLink().toString());
-
-						row2.TITLE = rowtRSSInput_1[0];
-
-						row2.DESCRIPTION = rowtRSSInput_1[1];
-
-						row2.PUBDATE = rowtRSSInput_1[2];
-
-						row2.LINK = rowtRSSInput_1[3];
-
-						/**
-						 * [tRSSInput_1 begin ] stop
-						 */
-
-						/**
-						 * [tRSSInput_1 main ] start
-						 */
-
-						currentComponent = "tRSSInput_1";
-
-						tos_count_tRSSInput_1++;
-
-						/**
-						 * [tRSSInput_1 main ] stop
-						 */
-
-						/**
-						 * [tRSSInput_1 process_data_begin ] start
-						 */
-
-						currentComponent = "tRSSInput_1";
-
-						/**
-						 * [tRSSInput_1 process_data_begin ] stop
-						 */
-
-						/**
-						 * [tLogRow_1 main ] start
-						 */
-
-						currentComponent = "tLogRow_1";
-
-///////////////////////		
-
-						strBuffer_tLogRow_1 = new StringBuilder();
-
-						if (row2.TITLE != null) { //
-
-							strBuffer_tLogRow_1.append(String.valueOf(row2.TITLE));
-
-						} //
-
-						strBuffer_tLogRow_1.append("|");
-
-						if (row2.DESCRIPTION != null) { //
-
-							strBuffer_tLogRow_1.append(String.valueOf(row2.DESCRIPTION));
-
-						} //
-
-						strBuffer_tLogRow_1.append("|");
-
-						if (row2.PUBDATE != null) { //
-
-							strBuffer_tLogRow_1.append(String.valueOf(row2.PUBDATE));
-
-						} //
-
-						strBuffer_tLogRow_1.append("|");
-
-						if (row2.LINK != null) { //
-
-							strBuffer_tLogRow_1.append(String.valueOf(row2.LINK));
-
-						} //
-
-						if (globalMap.get("tLogRow_CONSOLE") != null) {
-							consoleOut_tLogRow_1 = (java.io.PrintStream) globalMap.get("tLogRow_CONSOLE");
-						} else {
-							consoleOut_tLogRow_1 = new java.io.PrintStream(
-									new java.io.BufferedOutputStream(System.out));
-							globalMap.put("tLogRow_CONSOLE", consoleOut_tLogRow_1);
-						}
-						consoleOut_tLogRow_1.println(strBuffer_tLogRow_1.toString());
-						consoleOut_tLogRow_1.flush();
-						nb_line_tLogRow_1++;
-//////
-
-//////                    
-
-///////////////////////    			
-
-						tos_count_tLogRow_1++;
-
-						/**
-						 * [tLogRow_1 main ] stop
-						 */
-
-						/**
-						 * [tLogRow_1 process_data_begin ] start
-						 */
-
-						currentComponent = "tLogRow_1";
-
-						/**
-						 * [tLogRow_1 process_data_begin ] stop
-						 */
-
-						/**
-						 * [tLogRow_1 process_data_end ] start
-						 */
-
-						currentComponent = "tLogRow_1";
-
-						/**
-						 * [tLogRow_1 process_data_end ] stop
-						 */
-
-						/**
-						 * [tRSSInput_1 process_data_end ] start
-						 */
-
-						currentComponent = "tRSSInput_1";
-
-						/**
-						 * [tRSSInput_1 process_data_end ] stop
-						 */
-
-						/**
-						 * [tRSSInput_1 end ] start
-						 */
-
-						currentComponent = "tRSSInput_1";
-
-						nb_line_tRSSInput_1++;
-					} // end if (!ifInvalidtRSSInput_1)
-				}
-
-				globalMap.put("tRSSInput_1_NB_LINE", nb_line_tRSSInput_1);
-
-				ok_Hash.put("tRSSInput_1", true);
-				end_Hash.put("tRSSInput_1", System.currentTimeMillis());
+				tos_count_tMsgBox_1++;
 
 				/**
-				 * [tRSSInput_1 end ] stop
+				 * [tMsgBox_1 main ] stop
 				 */
 
 				/**
-				 * [tLogRow_1 end ] start
+				 * [tMsgBox_1 process_data_begin ] start
 				 */
 
-				currentComponent = "tLogRow_1";
-
-//////
-//////
-				globalMap.put("tLogRow_1_NB_LINE", nb_line_tLogRow_1);
-
-///////////////////////    			
-
-				ok_Hash.put("tLogRow_1", true);
-				end_Hash.put("tLogRow_1", System.currentTimeMillis());
+				currentComponent = "tMsgBox_1";
 
 				/**
-				 * [tLogRow_1 end ] stop
+				 * [tMsgBox_1 process_data_begin ] stop
 				 */
 
+				/**
+				 * [tMsgBox_1 process_data_end ] start
+				 */
+
+				currentComponent = "tMsgBox_1";
+
+				/**
+				 * [tMsgBox_1 process_data_end ] stop
+				 */
+
+				/**
+				 * [tMsgBox_1 end ] start
+				 */
+
+				currentComponent = "tMsgBox_1";
+
+				ok_Hash.put("tMsgBox_1", true);
+				end_Hash.put("tMsgBox_1", System.currentTimeMillis());
+
+				/**
+				 * [tMsgBox_1 end ] stop
+				 */
 			} // end the resume
 
 		} catch (java.lang.Exception e) {
@@ -1266,25 +942,14 @@ public class tContextLoad_and_file implements TalendJob {
 			try {
 
 				/**
-				 * [tRSSInput_1 finally ] start
+				 * [tMsgBox_1 finally ] start
 				 */
 
-				currentComponent = "tRSSInput_1";
+				currentComponent = "tMsgBox_1";
 
 				/**
-				 * [tRSSInput_1 finally ] stop
+				 * [tMsgBox_1 finally ] stop
 				 */
-
-				/**
-				 * [tLogRow_1 finally ] start
-				 */
-
-				currentComponent = "tLogRow_1";
-
-				/**
-				 * [tLogRow_1 finally ] stop
-				 */
-
 			} catch (java.lang.Exception e) {
 				// ignore
 			} catch (java.lang.Error error) {
@@ -1293,7 +958,131 @@ public class tContextLoad_and_file implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tRSSInput_1_SUBPROCESS_STATE", 1);
+		globalMap.put("tMsgBox_1_SUBPROCESS_STATE", 1);
+	}
+
+	public void tMsgBox_2Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+		globalMap.put("tMsgBox_2_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { // start the resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tMsgBox_2 begin ] start
+				 */
+
+				ok_Hash.put("tMsgBox_2", false);
+				start_Hash.put("tMsgBox_2", System.currentTimeMillis());
+
+				currentComponent = "tMsgBox_2";
+
+				int tos_count_tMsgBox_2 = 0;
+
+				/**
+				 * [tMsgBox_2 begin ] stop
+				 */
+
+				/**
+				 * [tMsgBox_2 main ] start
+				 */
+
+				currentComponent = "tMsgBox_2";
+
+				int messageIcontMsgBox_2 = javax.swing.JOptionPane.INFORMATION_MESSAGE;
+				String titletMsgBox_2 = "Talend Open Studio";
+				String messagetMsgBox_2 = "Talend Open Studio can't open the file: "
+						+ ((String) context.getProperty("filepath"));
+				String resulttMsgBox_2 = null;
+
+				javax.swing.JOptionPane.showMessageDialog(null, messagetMsgBox_2, titletMsgBox_2, messageIcontMsgBox_2);
+				resulttMsgBox_2 = String.valueOf(1);
+
+				globalMap.put("tMsgBox_2_RESULT", resulttMsgBox_2);
+
+				tos_count_tMsgBox_2++;
+
+				/**
+				 * [tMsgBox_2 main ] stop
+				 */
+
+				/**
+				 * [tMsgBox_2 process_data_begin ] start
+				 */
+
+				currentComponent = "tMsgBox_2";
+
+				/**
+				 * [tMsgBox_2 process_data_begin ] stop
+				 */
+
+				/**
+				 * [tMsgBox_2 process_data_end ] start
+				 */
+
+				currentComponent = "tMsgBox_2";
+
+				/**
+				 * [tMsgBox_2 process_data_end ] stop
+				 */
+
+				/**
+				 * [tMsgBox_2 end ] start
+				 */
+
+				currentComponent = "tMsgBox_2";
+
+				ok_Hash.put("tMsgBox_2", true);
+				end_Hash.put("tMsgBox_2", System.currentTimeMillis());
+
+				/**
+				 * [tMsgBox_2 end ] stop
+				 */
+			} // end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent, globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tMsgBox_2 finally ] start
+				 */
+
+				currentComponent = "tMsgBox_2";
+
+				/**
+				 * [tMsgBox_2 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tMsgBox_2_SUBPROCESS_STATE", 1);
 	}
 
 	public String resuming_logs_dir_path = null;
@@ -1337,9 +1126,9 @@ public class tContextLoad_and_file implements TalendJob {
 	public String status = "";
 
 	public static void main(String[] args) {
-		final tContextLoad_and_file tContextLoad_and_fileClass = new tContextLoad_and_file();
+		final onComponentError onComponentErrorClass = new onComponentError();
 
-		int exitCode = tContextLoad_and_fileClass.runJobInTOS(args);
+		int exitCode = onComponentErrorClass.runJobInTOS(args);
 
 		System.exit(exitCode);
 	}
@@ -1395,10 +1184,10 @@ public class tContextLoad_and_file implements TalendJob {
 		try {
 			// call job/subjob with an existing context, like: --context=production. if
 			// without this parameter, there will use the default context instead.
-			java.io.InputStream inContext = tContextLoad_and_file.class.getClassLoader().getResourceAsStream(
-					"local_project/tcontextload_and_file_0_1/contexts/" + contextStr + ".properties");
+			java.io.InputStream inContext = onComponentError.class.getClassLoader()
+					.getResourceAsStream("local_project/oncomponenterror_0_1/contexts/" + contextStr + ".properties");
 			if (inContext == null) {
-				inContext = tContextLoad_and_file.class.getClassLoader()
+				inContext = onComponentError.class.getClassLoader()
 						.getResourceAsStream("config/contexts/" + contextStr + ".properties");
 			}
 			if (inContext != null) {
@@ -1426,19 +1215,8 @@ public class tContextLoad_and_file implements TalendJob {
 			}
 			class ContextProcessing {
 				private void processContext_0() {
-					context.setContextType("config_filepath", "id_String");
-					context.config_filepath = (String) context.getProperty("config_filepath");
-					context.setContextType("uri", "id_String");
-					context.uri = (String) context.getProperty("uri");
-					context.setContextType("postLenght", "id_Integer");
-					try {
-						context.postLenght = routines.system.ParserUtils
-								.parseTo_Integer(context.getProperty("postLenght"));
-					} catch (NumberFormatException e) {
-						System.err.println(String.format("Null value will be used for context parameter %s: %s",
-								"postLenght", e.getMessage()));
-						context.postLenght = null;
-					}
+					context.setContextType("filepath", "id_String");
+					context.filepath = (String) context.getProperty("filepath");
 				}
 
 				public void processAllContext() {
@@ -1454,14 +1232,8 @@ public class tContextLoad_and_file implements TalendJob {
 
 		// get context value from parent directly
 		if (parentContextMap != null && !parentContextMap.isEmpty()) {
-			if (parentContextMap.containsKey("config_filepath")) {
-				context.config_filepath = (String) parentContextMap.get("config_filepath");
-			}
-			if (parentContextMap.containsKey("uri")) {
-				context.uri = (String) parentContextMap.get("uri");
-			}
-			if (parentContextMap.containsKey("postLenght")) {
-				context.postLenght = (Integer) parentContextMap.get("postLenght");
+			if (parentContextMap.containsKey("filepath")) {
+				context.filepath = (String) parentContextMap.get("filepath");
 			}
 		}
 
@@ -1512,7 +1284,7 @@ public class tContextLoad_and_file implements TalendJob {
 		endUsedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 		if (false) {
 			System.out.println(
-					(endUsedMemory - startUsedMemory) + " bytes memory increase when running : tContextLoad_and_file");
+					(endUsedMemory - startUsedMemory) + " bytes memory increase when running : onComponentError");
 		}
 
 		int returnCode = 0;
@@ -1648,6 +1420,6 @@ public class tContextLoad_and_file implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 51557 characters generated by Talend Open Studio for Data Integration on the
- * 14 janvier 2021 à 13:43:23 CET
+ * 42853 characters generated by Talend Open Studio for Data Integration on the
+ * 14 janvier 2021 à 15:36:18 CET
  ************************************************************************************************/
